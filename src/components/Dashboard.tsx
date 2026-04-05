@@ -28,7 +28,7 @@ export default function Dashboard({ onNavigate }: { onNavigate: (view: string, i
       <header className="bg-slate-900 text-white sticky top-0 z-10 shadow-md">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
           <div className="flex items-center gap-2">
-            <ShieldCheck className="text-blue-400" size={24} />
+            <img src="https://i.ibb.co/VW539V5S/covercc.png" alt="SIFT Logo" className="h-8 w-auto object-contain" referrerPolicy="no-referrer" />
             <span className="font-bold text-lg tracking-tight">SIFT</span>
           </div>
           <div className="flex items-center gap-4">

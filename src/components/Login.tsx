@@ -19,8 +19,8 @@ export default function Login() {
     <div className="min-h-screen bg-slate-900 flex items-center justify-center p-4">
       <div className="max-w-md w-full bg-slate-800 rounded-2xl shadow-2xl overflow-hidden border border-slate-700">
         <div className="p-8 text-center bg-slate-800 border-b border-slate-700">
-          <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-blue-500/20 text-blue-400 mb-4">
-            <ShieldAlert size={32} />
+          <div className="inline-flex items-center justify-center mb-4">
+            <img src="https://i.ibb.co/VW539V5S/covercc.png" alt="SIFT Logo" className="h-20 w-auto object-contain" referrerPolicy="no-referrer" />
           </div>
           <h1 className="text-2xl font-bold text-white tracking-tight">SIFT</h1>
           <p className="text-slate-400 text-sm mt-1">Sistema Integrado de Fiscalização de Trânsito</p>

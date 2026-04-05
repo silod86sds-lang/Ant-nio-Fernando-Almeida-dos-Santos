@@ -18,19 +18,46 @@ type AppContextType = {
     inspected: number;
     infractions: number;
     fines: number;
+    date?: string;
   };
   incrementInspected: () => void;
 };
 
 const AppContext = createContext<AppContextType | undefined>(undefined);
 
+const getInitialState = <T,>(key: string, fallback: T): T => {
+  try {
+    const item = localStorage.getItem(key);
+    return item ? JSON.parse(item) : fallback;
+  } catch (error) {
+    return fallback;
+  }
+};
+
 export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [currentUser, setCurrentUser] = useState<Agent | null>(null);
-  const [citizensData, setCitizensData] = useState<Citizen[]>(citizens);
-  const [vehiclesData, setVehiclesData] = useState<Vehicle[]>(vehicles);
-  const [infractionsData, setInfractionsData] = useState<InfractionRecord[]>(initialInfractions);
   
-  const [dailyStats, setDailyStats] = useState({ inspected: 0, infractions: 0, fines: 0 });
+  const [citizensData, setCitizensData] = useState<Citizen[]>(() => getInitialState('sift_citizens', citizens));
+  const [vehiclesData, setVehiclesData] = useState<Vehicle[]>(() => getInitialState('sift_vehicles', vehicles));
+  const [infractionsData, setInfractionsData] = useState<InfractionRecord[]>(() => getInitialState('sift_infractions', initialInfractions));
+  
+  const [dailyStats, setDailyStats] = useState(() => getInitialState('sift_stats', { 
+    inspected: 0, infractions: 0, fines: 0, date: new Date().toDateString() 
+  }));
+
+  // Persist state changes to LocalStorage
+  useEffect(() => { localStorage.setItem('sift_citizens', JSON.stringify(citizensData)); }, [citizensData]);
+  useEffect(() => { localStorage.setItem('sift_vehicles', JSON.stringify(vehiclesData)); }, [vehiclesData]);
+  useEffect(() => { localStorage.setItem('sift_infractions', JSON.stringify(infractionsData)); }, [infractionsData]);
+  useEffect(() => { localStorage.setItem('sift_stats', JSON.stringify(dailyStats)); }, [dailyStats]);
+
+  // Reset daily stats if it's a new day
+  useEffect(() => {
+    const today = new Date().toDateString();
+    if (dailyStats.date !== today) {
+      setDailyStats({ inspected: 0, infractions: 0, fines: 0, date: today });
+    }
+  }, []);
 
   // Update overdue fines on load
   useEffect(() => {
